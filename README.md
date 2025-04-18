@@ -32,4 +32,4 @@ IoT system using ESP8266 to monitor temperature with NTC thermistors, securely s
 - Fingerprint TLS due to memory.
 
 ## Contact
-Atiyeh Eivazlou: AtiyeEyvazlou@gmail.com
+Atiye Eyvazlou: AtiyeEyvazlou@gmail.com
