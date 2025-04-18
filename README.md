@@ -20,14 +20,6 @@ IoT system using ESP8266 to monitor temperature with NTC thermistors, securely s
 - **Subscriber**: Wi-Fi/MQTT (broker.emqx.io:8883) with TLS, EEPROM for broker IP, web config, 1.5s watchdog.
 - **Notes**: Subscriber avoids sleep; uses fingerprints for TLS due to memory limits.
 
-## Setup
-1. Clone: `git clone [repository URL]`
-2. Install Arduino IDE with ESP8266, libraries: `ESPAsyncWebServer`, `PubSubClient`, `EEPROM`.
-3. Connect thermistors to pin A0 (1% resistors).
-4. Flash publisher (2x) and subscriber (1x) code.
-5. Configure broker IP at `http://[subscriber-IP]/`.
-6. Monitor with [MQTTx](https://mqttx.app/).
-
 ## Testing
 - **Accuracy**: Lookup table ensures precision.
 - **Reliability**: Consistent MQTT data, verified by MQTTx.
@@ -38,10 +30,6 @@ IoT system using ESP8266 to monitor temperature with NTC thermistors, securely s
 - Wi-Fi takes ~3-4s, delaying publishes.
 - Subscriber power higher (no sleep).
 - Fingerprint TLS due to memory.
-
-## Future Work
-- RTC for time sync.
-- Full TLS certificates.
 
 ## Contact
 Atiyeh Eivazlou: AtiyeEyvazlou@gmail.com
