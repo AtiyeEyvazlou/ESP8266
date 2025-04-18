@@ -12,7 +12,7 @@ struct WiFiConfig {
   const char *password;
 };
 
-WiFiConfig wifi = { "TP-Link", "09143098424" };
+WiFiConfig wifi = { "your_ssid", "your_password" };
 
 
 struct MQTTConfig {
