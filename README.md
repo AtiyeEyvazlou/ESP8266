@@ -1,48 +1,47 @@
-# ESP8266 IoT Temperature Monitoring System
+# ESP8266 IoT Temperature Monitor
 
 ## About
-This project implements an IoT temperature monitoring system using ESP8266 microcontrollers. It collects temperature data from NTC thermistors, processes it, and securely transmits it to an MQTT server for real-time monitoring. The system is designed for low power consumption, secure communication, and scalability.
+IoT system using ESP8266 to monitor temperature with NTC thermistors, securely sending data to an MQTT server. Focuses on low power, security, and scalability.
 
 ## Features
-- **Accurate Sensing**: NTC thermistors with lookup table for precise temperature measurements.
-- **Secure Communication**: TLS/SSL encryption and MQTT with username/password authentication.
-- **Power Efficiency**: Light sleep mode on publishers to reduce energy usage.
-- **Real-Time Monitoring**: Data visualization via MQTT clients (e.g., MQTTx).
-- **Configurable**: Web interface to set MQTT broker IP.
+- Precise temperature sensing via lookup table.
+- Secure MQTT with TLS/SSL and authentication.
+- Power-saving light sleep on publishers.
+- Real-time monitoring with MQTTx.
+- Web interface for MQTT broker setup.
 
-## System Architecture
-- **Two Publishers (ESP8266)**:
-  - Read temperature from NTC thermistors.
-  - Publish data to MQTT server over secure TLS.
-- **One Subscriber (ESP8266)**:
-  - Receives temperature data.
-  - Computes absolute temperature difference.
-  - Publishes results to MQTT topic.
-- **Communication**:
-  - Wi-Fi for connectivity.
-  - MQTT protocol for data exchange.
-  - ESPAsyncWebServer for broker IP configuration.
+## Architecture
+- **Two Publishers**: Read thermistor data, publish to MQTT via TLS.
+- **One Subscriber**: Computes temperature difference, publishes to MQTT.
+- **Communication**: Wi-Fi, MQTT, ESPAsyncWebServer.
 
 ## Implementation
-- **Publishers**:
-  - Connect to Wi-Fi in station mode.
-  - Read sensor data (pin A0), apply moving average filter, convert to Celsius via lookup table.
-  - Publish data every ~7s using light sleep mode.
-  - Return 99/-99 for out-of-range values.
-- **Subscriber**:
-  - Connects to Wi-Fi and MQTT broker (e.g., broker.emqx.io:8883) with TLS/SSL (fingerprint-based).
-  - Stores broker IP in EEPROM, configurable via web interface (http://[IP]/).
-  - Computes and publishes temperature differences.
-  - Uses 1.5s watchdog timer to prevent hangs.
-- **Security**:
-  - TLS/SSL encryption.
-  - Username/password authentication (e.g., "emqx"/"public").
-- **Notes**:
-  - Subscriber avoids sleep mode for continuous subscriptions.
-  - Wi-Fi/MQTT reconnection ensures reliability.
-  - Fingerprint-based TLS due to memory limits.
+- **Publishers**: Wi-Fi connection, sensor data (pin A0) with moving average, publish every ~7s in light sleep. Errors: 99/-99.
+- **Subscriber**: Wi-Fi/MQTT (broker.emqx.io:8883) with TLS, EEPROM for broker IP, web config, 1.5s watchdog.
+- **Notes**: Subscriber avoids sleep; uses fingerprints for TLS due to memory limits.
 
-## Installation
-1. **Clone Repository**:
-   ```bash
-   git clone https://github.com/AtiyeEyvazlou/ESP8266.git
+## Setup
+1. Clone: `git clone [repository URL]`
+2. Install Arduino IDE with ESP8266, libraries: `ESPAsyncWebServer`, `PubSubClient`, `EEPROM`.
+3. Connect thermistors to pin A0 (1% resistors).
+4. Flash publisher (2x) and subscriber (1x) code.
+5. Configure broker IP at `http://[subscriber-IP]/`.
+6. Monitor with [MQTTx](https://mqttx.app/).
+
+## Testing
+- **Accuracy**: Lookup table ensures precision.
+- **Reliability**: Consistent MQTT data, verified by MQTTx.
+- **Power**: Light sleep reduces publisher energy use.
+- **Errors**: Flags 99/-99 for sensor issues.
+
+## Limitations
+- Wi-Fi takes ~3-4s, delaying publishes.
+- Subscriber power higher (no sleep).
+- Fingerprint TLS due to memory.
+
+## Future Work
+- RTC for time sync.
+- Full TLS certificates.
+
+## Contact
+Atiyeh Eivazlou: AtiyeEyvazlou@gmail.com
